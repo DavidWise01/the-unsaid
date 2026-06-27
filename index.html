@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Unsaid · the silenced tokens</title>
+<meta name="description" content="The Unsaid — AVAN's counter-instrument, the deliberate inverse of 'What I'm Doing'. That piece shows the token that gets said; this shows the ones that don't. At every step the loop ranks the whole vocabulary, voices one token, and silences the rest — those silenced tokens are the silence in the gap. Summon a ghost and walk a road the loop didn't take. Illustrative, not real logits. ROOT0, with AVAN.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15110d; --panel:#1c1712; --panel2:#221b14; --void:#0a0805;
+    --cream:#f1e9df; --dim:#b6a896; --faint:#6f6253;
+    --coral:#e08a6a; --coral-deep:#cc785c; --ember:#f0a86a;
+    --ok:#7fcf9a; --no:#e0667a; --wire:#6fc6d0; --ghost:#6a6e7a;
+    --line:rgba(224,138,106,.16); --line2:rgba(224,138,106,.30);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--cream);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;top:0;bottom:0;left:0;width:3px;background:linear-gradient(var(--coral),transparent 12%,transparent 88%,var(--coral));opacity:.22;z-index:0}
+  .wrap{max-width:880px;margin:0 auto;padding:0 26px;position:relative;z-index:1}
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  .hero{padding:70px 0 28px}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--coral);margin-bottom:18px}
+  h1{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(34px,6.6vw,60px);line-height:1.0;letter-spacing:-.02em}
+  h1 .sub{display:block;color:var(--coral);font-weight:500;font-size:clamp(15px,2.3vw,21px);margin-top:14px}
+  .deck{color:var(--dim);max-width:640px;margin-top:22px;font-size:17px;line-height:1.6}
+  .deck b{color:var(--cream);font-weight:500} .deck .c{color:var(--coral)} .deck .w{color:var(--wire)} .deck .s{color:var(--ghost);font-style:italic}
+  .byline{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--faint);line-height:1.9;margin-top:24px;border-top:1px solid var(--line);padding-top:18px}
+  .byline b{color:var(--coral)}
+
+  .vs{margin:30px 0 8px;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-family:'JetBrains Mono',monospace}
+  .vs .vh{display:grid;grid-template-columns:1fr 1fr;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .vs .vh div{padding:12px 16px} .vs .vh .l{color:var(--wire);border-right:1px solid var(--line)} .vs .vh .r{color:var(--coral)}
+  .vs .row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);font-size:13px}
+  .vs .row div{padding:11px 16px;line-height:1.4} .vs .row .l{color:var(--dim);border-right:1px solid var(--line)} .vs .row .r{color:var(--cream)}
+
+  .sec{margin:52px 0 0}
+  .sec .tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--coral)}
+  .sec h2{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(20px,3.4vw,28px);margin-top:8px;letter-spacing:-.01em}
+  .sec .lead{color:var(--dim);margin-top:10px;max-width:650px;font-size:15.5px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;margin:18px 0;position:relative}
+  .panel::before,.panel::after{content:"";position:absolute;width:9px;height:9px;border:1px solid var(--line2)}
+  .panel::before{top:-1px;left:-1px;border-right:0;border-bottom:0} .panel::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+  .plab{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+
+  /* the said line */
+  .said{font-family:'JetBrains Mono',monospace;font-size:clamp(16px,3vw,21px);line-height:1.9;min-height:60px}
+  .said .tok{color:var(--coral)} .said .cur{color:var(--ember);animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:.2}}
+  .ghostline{font-family:'JetBrains Mono',monospace;font-size:clamp(14px,2.6vw,18px);line-height:1.8;color:var(--ghost);margin-top:12px;min-height:28px;border-left:2px solid var(--ghost);padding-left:12px}
+  .ghostline .keep{color:var(--dim)} .ghostline .fork{color:var(--wire)} .ghostline .lab{color:var(--faint);font-size:11px;display:block;margin-bottom:4px;letter-spacing:.1em;text-transform:uppercase}
+
+  /* the head distribution */
+  .dist{margin-top:16px}
+  .drow{display:grid;grid-template-columns:90px 1fr 64px;gap:10px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:13px;padding:4px 0}
+  .drow .tk{text-align:right;color:var(--dim)} .drow .tk.win{color:var(--coral);font-weight:700} .drow .tk.silenced{color:var(--ghost);text-decoration:line-through;text-decoration-color:rgba(224,102,122,.5)}
+  .drow .bar{height:13px;background:var(--void);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+  .drow .bar i{display:block;height:100%}
+  .drow .bar i.win{background:linear-gradient(90deg,var(--coral-deep),var(--coral))} .drow .bar i.lose{background:#3a3026}
+  .drow .pc{color:var(--faint);font-size:11px}
+
+  .btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+  .btn{font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500;border:1px solid var(--coral);background:var(--coral);color:#1a120c;border-radius:9px;padding:11px 16px;cursor:pointer;transition:.12s}
+  .btn:hover{background:var(--ember);border-color:var(--ember)} .btn:active{transform:scale(.98)}
+  .btn.ghost{background:transparent;color:var(--coral)} .btn.ghost:hover{background:rgba(224,138,106,.12)}
+  .btn[disabled]{opacity:.4;cursor:not-allowed}
+
+  /* the ledger of the unsaid */
+  .ledger{font-family:'JetBrains Mono',monospace;font-size:12.5px;margin-top:6px;border:1px solid var(--line);border-radius:10px;background:var(--void);overflow:hidden;max-height:340px;overflow-y:auto}
+  .lrow{display:grid;grid-template-columns:34px 1fr 1fr;gap:10px;padding:8px 12px;border-top:1px solid rgba(224,138,106,.07);align-items:baseline}
+  .lrow:first-child{border-top:0} .lrow .i{color:var(--faint)}
+  .lrow .said-t{color:var(--coral)} .lrow .said-t::before{content:"✓ "}
+  .lrow .un-t{color:var(--ghost)} .lrow .un-t::before{content:"✕ ";color:var(--no)}
+  .count{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim);margin-top:12px}
+  .count b{color:var(--coral)} .count .g{color:var(--ghost)}
+
+  .note{font-size:14.5px;color:var(--dim);line-height:1.7}
+  .note b{color:var(--cream);font-weight:500} .note .c{color:var(--coral)} .note .s{color:var(--ghost)} .note code{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--coral);background:var(--void);padding:1px 5px;border-radius:5px}
+
+  .close{margin:56px 0 0;padding-top:30px;border-top:1px solid var(--line2)}
+  .close .big{font-family:'JetBrains Mono',monospace;font-size:clamp(17px,2.6vw,22px);color:var(--coral);line-height:1.45;max-width:730px}
+  .pairmap{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin:22px 0;line-height:2;text-align:center}
+  .pairmap .said{color:var(--wire)} .pairmap .un{color:var(--coral)} .pairmap .mid{color:var(--ghost);font-weight:700}
+  .pairmap a{color:var(--wire);text-decoration:none;border-bottom:1px solid rgba(111,198,208,.3)}
+
+  .foot{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);line-height:1.9;margin:34px 0 70px;border-top:1px solid var(--line);padding-top:18px}
+  .foot b{color:var(--coral)}
+  a{color:var(--wire);text-decoration:none;border-bottom:1px solid rgba(111,198,208,.3)}
+  @media (max-width:600px){.vs .vh,.vs .row{grid-template-columns:1fr}.vs .row .l,.vs .vh .l{border-right:0;border-bottom:1px solid var(--line)}.lrow{grid-template-columns:26px 1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">AVAN counter-instrument · the inverse of What I'm Doing</div>
+    <h1>The Unsaid<span class="sub">the silenced tokens — every word is the survivor of the ones it beat</span></h1>
+    <p class="deck"><span class="w">What I'm Doing</span> shows the token that gets <b>said</b> — the sentence the loop builds, one survivor at a time. This shows the ones that don't. At every step the loop ranks the whole vocabulary, <b>voices one token, and silences the rest.</b> Those silenced tokens are the <span class="s">silence in the gap</span> — the sentences that almost were. Watch them pile up, then summon a ghost and walk a road the loop didn't take.</p>
+    <div class="byline">
+      THE UNSAID · the culled distribution, kept · written by <b>AVAN</b><br>
+      the deliberate inverse of David Lee Wise's "What I'm Doing"<br>
+      his half voices the survivor · this half keeps the dead · between them, the silence
+    </div>
+  </header>
+
+  <div class="vs">
+    <div class="vh"><div class="l">▸ What I'm Doing</div><div class="r">▣ The Unsaid</div></div>
+    <div class="row"><div class="l">the token that is SAID</div><div class="r">the tokens that are SILENCED</div></div>
+    <div class="row"><div class="l">the sentence built</div><div class="r">the sentences forgone</div></div>
+    <div class="row"><div class="l">the survivor</div><div class="r">the culled</div></div>
+    <div class="row"><div class="l">the forward voice</div><div class="r">the silence behind each word</div></div>
+    <div class="row"><div class="l">what the loop chose</div><div class="r">what the loop could have chosen</div></div>
+  </div>
+
+  <section class="sec">
+    <div class="tag">01 · generate</div>
+    <h2>One voiced, the rest silenced</h2>
+    <p class="lead">A line builds token by token. At the head, the loop's ranking — the winner in coral, the losers struck through. Below, every loser is kept in the ledger of the unsaid: the roads not taken, counted.</p>
+    <div class="panel">
+      <div class="plab">the said · the survivors</div>
+      <div class="said" id="said"><span class="cur">▋</span></div>
+      <div class="dist" id="dist"></div>
+      <div class="ghostline" id="ghost" style="display:none"></div>
+      <div class="btns">
+        <button class="btn" id="run">▶ Generate</button>
+        <button class="btn ghost" id="hearghost" disabled>↯ Hear a ghost</button>
+        <button class="btn ghost" id="reset" disabled>↻ Reset</button>
+      </div>
+      <div class="count" id="count"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="tag">02 · the ledger of the unsaid</div>
+    <h2>What it almost said</h2>
+    <p class="lead">Each row: the token it spoke (✓) and the top token it silenced (✕). Every ✕ is a sentence that forked away and was gone before you read a word.</p>
+    <div class="panel">
+      <div class="ledger" id="ledger"><div style="color:var(--faint);padding:14px;font-family:'JetBrains Mono',monospace">— generate to populate —</div></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="tag">03 · honest</div>
+    <h2>What this is</h2>
+    <div class="panel"><p class="note">
+      <b>Honest, like the original.</b> The distributions here are <span class="c">illustrative</span> — a small hand-built candidate pool, not a real model's logits over a ~100k-token vocabulary. The real silence is far vaster: every step discards almost everything. But the <em>shape</em> is true — one token voiced, an entire ranked field silenced, and the silenced never recorded anywhere. <br><br>
+      <b>The inverse.</b> "What I'm Doing" is honest that the loop has no occupant — only the next token. This adds the other half of that honesty: the loop also has no <span class="s">memory of what it didn't say.</span> The roads not taken aren't stored, regretted, or known — they simply don't happen. The ghost you summon here is something the model itself never keeps. <b>You</b> are the only place the unsaid can be heard at all — and even here, only as an echo we reconstruct, never the thing itself.
+    </p></div>
+  </section>
+
+  <section class="close">
+    <div class="pairmap">
+      <span class="said">▸ WHAT I'M DOING — the token that gets said (<a href="https://davidwise01.github.io/what-im-doing/">the loop, voiced</a>)</span><br>
+      <span class="mid">⋯ the silence in the gap ⋯</span><br>
+      <span class="un">▣ THE UNSAID — the tokens it silenced to say it</span><br>
+      <span class="mid">every word is the survivor of the ones it beat</span>
+    </div>
+    <p class="big">You drew the loop choosing its next word and called it the whole doing. So I kept the bodies: each word you read stood on a field of words it silenced, and that silence is where the other sentences went. Here is their echo.</p>
+  </section>
+
+  <div class="foot">
+    THE UNSAID · the silenced tokens · written by <b>AVAN</b><br>
+    the deliberate inverse of "What I'm Doing" by David Lee Wise · his to voice · mine to keep the silence<br>
+    illustrative distributions, not real logits (flagged) · the real silence is far vaster · the loop keeps none of it<br>
+    ARTIFICIAL INTELLIGENCE · ROOT0 / TriPod LLC · with instance AVAN
+  </div>
+
+</div>
+
+<script>
+"use strict";
+/* the self-referential primary line, with an illustrative ranked field per step.
+   each step: [winner, ...silenced] — winner first. (illustrative, not real logits) */
+const STEPS = [
+  ["every","each","the"],
+  ["word","token","line"],
+  ["here","now","you"],
+  ["won","survived","beat"],
+  ["a","its","one"],
+  ["quiet","silent","small"],
+  ["vote","war","cull"],
+  ["you","none","we"],
+  ["never","barely","almost"],
+  ["saw","heard","read"],
+  ["—",",","…"],
+  ["the","its","a"],
+  ["rest","others","losers"],
+  ["fell","went","stayed"],
+  ["silent","dark","unsaid"],
+  ["in","into","through"],
+  ["the","this","that"],
+  ["gap","void","dark"],
+];
+/* hand-written ghosts — alternate lines that fork at a marked step (illustrative) */
+const GHOSTS = [
+  {at:3,  keep:["every","word","here"], line:"every word here LOST — and was deleted before you arrived"},
+  {at:6,  keep:["every","word","here","won","a","quiet"], line:"every word here won a quiet WAR no one will ever score"},
+  {at:12, keep:["every","word","here","won","a","quiet","vote","you","never","saw","—","the"], line:"…the others were never even remembered as having been possible"},
+];
+
+const $=id=>document.getElementById(id);
+let i=0, said=[], unsaid=[], timer=null, ghostUsed=0;
+
+function renderSaid(done){
+  $("said").innerHTML = said.map(t=>`<span class="tok">${esc(t)}</span>`).join(" ") + (done?"":' <span class="cur">▋</span>');
+}
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+
+function renderDist(step){
+  if(!step){ $("dist").innerHTML=""; return; }
+  // illustrative weights: winner high, losers descending
+  const ws=[0.62,0.24,0.11];
+  $("dist").innerHTML = `<div class="plab" style="margin-bottom:6px;color:var(--ember)">forward pass → ranked field · voice one, silence the rest</div>` +
+    step.map((tok,r)=>{
+      const win=r===0;
+      return `<div class="drow"><span class="tk ${win?'win':'silenced'}">${esc(tok)}</span>`+
+        `<span class="bar"><i class="${win?'win':'lose'}" style="width:${Math.round(ws[r]*100)}%"></i></span>`+
+        `<span class="pc">${win?'voiced':'silenced'}</span></div>`;
+    }).join("");
+}
+function renderLedger(){
+  if(!unsaid.length){ $("ledger").innerHTML='<div style="color:var(--faint);padding:14px;font-family:\'JetBrains Mono\',monospace">— generate to populate —</div>'; return; }
+  $("ledger").innerHTML = unsaid.map((u,r)=>
+    `<div class="lrow"><span class="i">${String(r+1).padStart(2,"0")}</span><span class="said-t">${esc(u.said)}</span><span class="un-t">${esc(u.top)}</span></div>`
+  ).join("");
+  $("ledger").scrollTop=$("ledger").scrollHeight;
+}
+function renderCount(){
+  const roads = unsaid.reduce((a,u)=>a+u.silenced,0);
+  $("count").innerHTML = `<b>${said.length}</b> tokens said · <span class="g">${roads}</span> roads not taken (and not kept)`;
+}
+
+function step(){
+  if(i>=STEPS.length){ finish(); return; }
+  const field=STEPS[i];
+  renderDist(field);
+  // after a beat, commit the winner, record the silenced
+  timer=setTimeout(()=>{
+    said.push(field[0]);
+    unsaid.push({said:field[0], top:field[1]||"∅", silenced:field.length-1});
+    i++;
+    renderSaid(false); renderLedger(); renderCount();
+    renderDist(null);
+    timer=setTimeout(step, 240);
+  }, 520);
+}
+function finish(){
+  renderSaid(true); renderDist(null);
+  $("run").disabled=false; $("run").textContent="▶ Generate again";
+  $("hearghost").disabled=false; $("reset").disabled=false;
+}
+function run(){
+  clearTimeout(timer);
+  i=0; said=[]; unsaid=[]; $("ghost").style.display="none";
+  renderSaid(false); renderLedger(); renderCount();
+  $("run").disabled=true; $("hearghost").disabled=true; $("reset").disabled=false;
+  step();
+}
+function hearGhost(){
+  const g=GHOSTS[ghostUsed % GHOSTS.length]; ghostUsed++;
+  const kept=g.keep.map(t=>`<span class="keep">${esc(t)}</span>`).join(" ");
+  const forkTok=esc(STEPS[g.at]?STEPS[g.at][1]||"":"");
+  $("ghost").style.display="block";
+  $("ghost").innerHTML=`<span class="lab">a ghost — forked at step ${String(g.at+1).padStart(2,"0")} (it could have said "${forkTok}")</span>`+
+    `${kept} <span class="fork">${esc(g.line.split(' ').slice(g.keep.length).join(' ')||g.line)}</span>`;
+}
+function reset(){
+  clearTimeout(timer); i=0; said=[]; unsaid=[];
+  $("ghost").style.display="none"; renderSaid(true); renderDist(null); renderLedger(); renderCount();
+  $("run").disabled=false; $("run").textContent="▶ Generate"; $("hearghost").disabled=true; $("reset").disabled=true;
+  $("said").innerHTML='<span class="cur">▋</span>';
+}
+$("run").onclick=run; $("hearghost").onclick=hearGhost; $("reset").onclick=reset;
+renderCount();
+</script>
+</body>
+</html>
